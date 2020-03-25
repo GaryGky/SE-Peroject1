@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间绑定一个对应的DAO/MAPPER命名接口-->
+<mapper namespace="com.gary.dao.StudentMapper">
+    <insert id="addStu" parameterType="Student">
+        insert into student values(#{stu_id},#{stu_name},#{pwd});
+    </insert>
+
+    <delete id="delStuById" parameterType="int">
+        delete from student where stu_id=#{stu_id};
+    </delete>
+
+    <update id="updateStu" parameterType="Student">
+        update student set stu_name=#{stu_name},pwd=#{pwd},
+        stu_id=#{stu_id}
+        where stu_id=#{stu_id} ;
+    </update>
+
+    <select id="queryStuById" parameterType="int" resultType="Student">
+        select * from student where stu_id = #{stu_id};
+    </select>
+
+    <select id="queryAllStu" resultType="Student">
+        select * from student
+    </select>
+
+    <insert id="borrowBook">
+        insert into borrow values(#{stu_id},#{book_id},#{borrow_time});
+        update book set bkCount = bkCount-1 where book_id = #{book_id} ;
+    </insert>
+
+    <delete id="returnBook">
+        delete from borrow where stu_id=#{stu_id} and book_id=#{book_id};
+        update book set bkCount = bkCount+1 where book_id=#{book_id}
+    </delete>
+
+    <select id="queryBorrowBook" resultType="Books">
+        select * from book where book_id in (select book_id from borrow where
+        stu_id = #{stu_id});
+    </select>
+
+    <select id="queryTime" resultType="String">
+        select borrow_time from borrow where (stu_id=#{stu_id} and
+        book_id=#{book_id});
+    </select>
+
+</mapper>

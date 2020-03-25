@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--特别重要的一句话：开启注解支持-->
+    <context:annotation-config/>
+    <context:component-scan base-package="com.gary.service"/>
+
+    <bean id="BookServiceImpl" class="com.gary.service.BookServiceImpl">
+        <property name="bookMapper" ref="bookMapper"/>
+    </bean>
+
+    <bean id="StuServiceImpl" class="com.gary.service.StuServiceImpl">
+        <property name="studentMapper" ref="studentMapper"/>
+    </bean>
+
+    <!--事物管理器-->
+    <bean id="transaction"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="datasource"/>
+    </bean>
+
+</beans>
